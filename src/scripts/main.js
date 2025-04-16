@@ -2,10 +2,12 @@
 
 import { Game } from '../modules/Game.class.js';
 
-const boardElement = document.querySelector('.field');
-const scoreElement = document.querySelector('.score');
-const statusElement = document.querySelector('.status');
-const startButton = document.querySelector('.start');
+const boardElement = document.querySelector('.game-field tbody');
+const scoreElement = document.querySelector('.game-score');
+const winMessage = document.querySelector('.message-win');
+const loseMessage = document.querySelector('.message-lose');
+const startMessage = document.querySelector('.message-start');
+const startButton = document.querySelector('#startButton');
 
 const game = new Game();
 
@@ -15,30 +17,27 @@ function updateUI() {
   boardElement.innerHTML = '';
 
   for (const row of state) {
-    for (const cell of row) {
-      const div = document.createElement('div');
+    const tr = document.createElement('tr');
 
-      div.className = 'field-cell';
+    for (const cell of row) {
+      const td = document.createElement('td');
+
+      td.className = 'field-cell';
 
       if (cell !== 0) {
-        div.classList.add(`field-cell--${cell}`);
-        div.textContent = cell;
+        td.classList.add(`field-cell--${cell}`);
+        td.textContent = cell;
       }
-      boardElement.appendChild(div);
+      tr.appendChild(td);
     }
+    boardElement.appendChild(tr);
   }
 
   scoreElement.textContent = game.getScore();
 
-  if (game.getStatus() === 'win') {
-    statusElement.textContent = 'You win!';
-    statusElement.classList.remove('hidden');
-  } else if (game.getStatus() === 'lose') {
-    statusElement.textContent = 'Game over!';
-    statusElement.classList.remove('hidden');
-  } else {
-    statusElement.classList.add('hidden');
-  }
+  winMessage.classList.toggle('hidden', game.getStatus() !== 'win');
+  loseMessage.classList.toggle('hidden', game.getStatus() !== 'lose');
+  startMessage.classList.toggle('hidden', game.getStatus() === 'inProgress');
 }
 
 document.addEventListener('keydown', (e) => {
@@ -56,9 +55,6 @@ document.addEventListener('keydown', (e) => {
   if (keyMap[e.key]) {
     keyMap[e.key]();
     updateUI();
-    startButton.classList.remove('start');
-    startButton.classList.add('restart');
-    startButton.textContent = 'Restart';
   }
 });
 
