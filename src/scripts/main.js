@@ -7,7 +7,7 @@ const scoreElement = document.querySelector('.game-score');
 const winMessage = document.querySelector('.message-win');
 const loseMessage = document.querySelector('.message-lose');
 const startMessage = document.querySelector('.message-start');
-const startButton = document.querySelector('.button-start');
+const startButton = document.querySelector('.start');
 
 const game = new Game();
 

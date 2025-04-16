@@ -1,5 +1,4 @@
 'use strict';
-
 export class Game {
   constructor(initialState = null) {
     this.size = 4;
@@ -9,32 +8,21 @@ export class Game {
 
     if (!initialState) {
       this.addRandomTile();
-    }
-
-    if (!initialState) {
       this.addRandomTile();
-
-      this.board = Array.from({ length: this.size }, () =>
-        Array(this.size).fill(0),);
     }
   }
-
   createEmptyBoard() {
     return Array.from({ length: this.size }, () => Array(this.size).fill(0));
   }
-
   getState() {
     return this.board;
   }
-
   getScore() {
     return this.score;
   }
-
   getStatus() {
     return this.status;
   }
-
   restart() {
     this.score = 0;
     this.status = 'inProgress';
@@ -42,27 +30,21 @@ export class Game {
     this.addRandomTile();
     this.addRandomTile();
   }
-
   start() {
     this.restart();
   }
-
   moveLeft() {
     this.makeMove(this.slideLeft.bind(this));
   }
-
   moveRight() {
     this.makeMove(this.slideRight.bind(this));
   }
-
   moveUp() {
     this.makeMove(this.slideUp.bind(this));
   }
-
   moveDown() {
     this.makeMove(this.slideDown.bind(this));
   }
-
   makeMove(slideFn) {
     const prev = this.board.map((row) => row.slice());
 
@@ -73,19 +55,15 @@ export class Game {
       this.checkGameStatus();
     }
   }
-
   boardsEqual(b1, b2) {
     return b1.flat().every((val, i) => val === b2.flat()[i]);
   }
-
   slideLeft(board) {
     return board.map((row) => this.mergeRow(row));
   }
-
   slideRight(board) {
     return board.map((row) => this.mergeRow(row.reverse()).reverse());
   }
-
   slideUp(board) {
     let rotated = this.rotateLeft(board);
 
@@ -93,7 +71,6 @@ export class Game {
 
     return this.rotateRight(rotated);
   }
-
   slideDown(board) {
     let rotated = this.rotateLeft(board);
 
@@ -101,15 +78,12 @@ export class Game {
 
     return this.rotateRight(rotated);
   }
-
   rotateLeft(matrix) {
     return matrix[0].map((_, col) => matrix.map((row) => row[col])).reverse();
   }
-
   rotateRight(matrix) {
     return matrix.reverse()[0].map((_, col) => matrix.map((row) => row[col]));
   }
-
   mergeRow(row) {
     const nonZero = row.filter((num) => num !== 0);
     const merged = [];
@@ -130,7 +104,6 @@ export class Game {
 
     return merged;
   }
-
   addRandomTile() {
     const emptyCells = [];
 
@@ -146,11 +119,11 @@ export class Game {
       return;
     }
 
-    const { r, c } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const randomCell =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-    this.board[r][c] = Math.random() < 0.9 ? 2 : 4;
+    this.board[randomCell.row][randomCell.col] = Math.random() < 0.9 ? 2 : 4;
   }
-
   checkGameStatus() {
     if (this.board.flat().includes(2048)) {
       this.status = 'win';
@@ -161,10 +134,8 @@ export class Game {
     if (this.canMove()) {
       return;
     }
-
     this.status = 'lose';
   }
-
   canMove() {
     for (let r = 0; r < this.size; r++) {
       for (let c = 0; c < this.size; c++) {
