@@ -37,7 +37,7 @@ function updateUI() {
 
   winMessage.classList.toggle('hidden', game.getStatus() !== 'win');
   loseMessage.classList.toggle('hidden', game.getStatus() !== 'lose');
-  startMessage.classList.toggle('hidden', game.getStatus() === 'inProgress');
+  startMessage.classList.add('hidden');
 }
 
 document.addEventListener('keydown', (e) => {
